@@ -25,7 +25,7 @@ public class ClienteController {
 
         return ResponseEntity.notFound().build();
     }
-    
+
     @PostMapping
     public ResponseEntity<?> salvar( @RequestBody Cliente cliente ) {
         Cliente clienteSalvo = clientes.save(cliente);
@@ -44,5 +44,17 @@ public class ClienteController {
 
         return ResponseEntity.notFound().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizar( @PathVariable Integer id, @RequestBody Cliente cliente ) {
+        return clientes
+                .findById(id)
+                .map( clienteExistente -> {
+                    cliente.setId(clienteExistente.getId());
+                    clientes.save(cliente);
+                    return ResponseEntity.noContent().build();
+                }).orElseGet( () -> ResponseEntity.notFound().build() );
+    }
+    
 
 }
