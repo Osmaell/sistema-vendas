@@ -5,9 +5,11 @@ import io.github.osmaell.domain.repository.Clientes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +34,7 @@ public class ClienteController {
     @PostMapping
     public ResponseEntity<?> salvar( @RequestBody Cliente cliente ) {
         Cliente clienteSalvo = clientes.save(cliente);
-        return ResponseEntity.ok(clienteSalvo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalvo);
     }
 
     @DeleteMapping("/{id}")
