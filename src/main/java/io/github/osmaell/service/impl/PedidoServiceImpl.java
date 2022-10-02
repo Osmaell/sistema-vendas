@@ -4,6 +4,7 @@ import io.github.osmaell.domain.entity.Cliente;
 import io.github.osmaell.domain.entity.ItemPedido;
 import io.github.osmaell.domain.entity.Pedido;
 import io.github.osmaell.domain.entity.Produto;
+import io.github.osmaell.domain.enums.StatusPedido;
 import io.github.osmaell.domain.repository.Clientes;
 import io.github.osmaell.domain.repository.ItemsPedido;
 import io.github.osmaell.domain.repository.Pedidos;
@@ -50,6 +51,7 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setTotal(dto.getTotal());
         pedido.setDataPedido(LocalDate.now());
         pedido.setCliente(cliente);
+        pedido.setStatus(StatusPedido.REALIZADO);
 
         // retornando uma lista de ItemsPedido
         List<ItemPedido> itemsPedido = converterItems(pedido, dto.getItems());

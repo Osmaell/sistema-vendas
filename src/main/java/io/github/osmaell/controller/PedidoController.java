@@ -12,12 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -53,6 +51,7 @@ public class PedidoController {
                 .cpf(pedido.getCliente().getCpf())
                 .nomeCliente(pedido.getCliente().getNome())
                 .totalPedido(pedido.getTotal())
+                .status(pedido.getStatus().name())
                 .items(converter(pedido.getItens()))
                 .build();
 
