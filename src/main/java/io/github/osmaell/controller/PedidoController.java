@@ -2,6 +2,8 @@ package io.github.osmaell.controller;
 
 import io.github.osmaell.domain.entity.ItemPedido;
 import io.github.osmaell.domain.entity.Pedido;
+import io.github.osmaell.domain.enums.StatusPedido;
+import io.github.osmaell.dto.AtualizacaoStatusPedidoDTO;
 import io.github.osmaell.dto.InformacoesItemPedidoDTO;
 import io.github.osmaell.dto.InformacoesPedidoDTO;
 import io.github.osmaell.dto.PedidoDTO;
@@ -41,6 +43,13 @@ public class PedidoController {
                         new RegraNegocioException("Pedido não encontrado."));
 
         return ResponseEntity.ok( dtoPedido );
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> atualizarStatus( @PathVariable Integer id,
+                                 @RequestBody AtualizacaoStatusPedidoDTO dto) {
+        pedidoService.atualizaStatusPedido(id, StatusPedido.valueOf(dto.getNovoStatus()));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     private InformacoesPedidoDTO converter(Pedido pedido) {

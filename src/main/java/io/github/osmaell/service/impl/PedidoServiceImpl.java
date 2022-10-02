@@ -11,6 +11,7 @@ import io.github.osmaell.domain.repository.Pedidos;
 import io.github.osmaell.domain.repository.Produtos;
 import io.github.osmaell.dto.ItemPedidoDTO;
 import io.github.osmaell.dto.PedidoDTO;
+import io.github.osmaell.exception.RecursoNaoEncontradoException;
 import io.github.osmaell.exception.RegraNegocioException;
 import io.github.osmaell.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,17 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public Optional<Pedido> obterPedido(Integer id) {
         return pedidos.findByIdFetchItens(id);
+    }
+
+    @Override
+    @Transactional
+    public void atualizaStatusPedido(Integer id, StatusPedido status) {
+        pedidos
+                .findById(id)
+                .map( pedido -> {
+                    pedido.setStatus(status);
+                    return pedidos.save(pedido);
+                }).orElseThrow( () -> new RecursoNaoEncontradoException("Pedido não encontrado."));
     }
 
     private List<ItemPedido> converterItems(Pedido pedido, List<ItemPedidoDTO> items) {

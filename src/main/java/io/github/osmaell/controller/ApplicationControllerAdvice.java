@@ -1,5 +1,6 @@
 package io.github.osmaell.controller;
 
+import io.github.osmaell.exception.RecursoNaoEncontradoException;
 import io.github.osmaell.exception.RegraNegocioException;
 import io.github.osmaell.utils.ApiErrors;
 import org.springframework.http.HttpStatus;
@@ -18,4 +19,11 @@ public class ApplicationControllerAdvice {
         return new ApiErrors(mensagemErro);
     }
 
+    @ExceptionHandler(RecursoNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErrors handleRecursoNaoEncontradoException(RecursoNaoEncontradoException exception) {
+        String mensagemErro = exception.getMessage();
+        return new ApiErrors(mensagemErro);
+    }
+    
 }
