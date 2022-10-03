@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,7 @@ public class ClienteController {
     }
 
     @PostMapping
-    public ResponseEntity<?> salvar( @RequestBody Cliente cliente ) {
+    public ResponseEntity<?> salvar( @RequestBody @Valid Cliente cliente ) {
         Cliente clienteSalvo = clientes.save(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalvo);
     }
@@ -51,7 +52,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar( @PathVariable Integer id, @RequestBody Cliente cliente ) {
+    public ResponseEntity<?> atualizar( @PathVariable Integer id, @RequestBody @Valid Cliente cliente ) {
         return clientes
                 .findById(id)
                 .map( clienteExistente -> {

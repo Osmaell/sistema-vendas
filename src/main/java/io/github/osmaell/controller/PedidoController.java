@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +29,7 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @PostMapping
-    public ResponseEntity<?> salvar(@RequestBody PedidoDTO dto) {
+    public ResponseEntity<?> salvar(@RequestBody @Valid PedidoDTO dto) {
         Pedido pedido = pedidoService.salvar(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(pedido.getId());
     }
