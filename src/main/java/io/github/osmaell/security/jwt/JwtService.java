@@ -1,4 +1,4 @@
-package io.github.osmaell;
+package io.github.osmaell.security.jwt;
 
 import io.github.osmaell.domain.entity.Usuario;
 import io.jsonwebtoken.Claims;
