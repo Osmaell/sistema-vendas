@@ -2,6 +2,7 @@ package io.github.osmaell.service.impl;
 
 import io.github.osmaell.domain.entity.Usuario;
 import io.github.osmaell.domain.repository.Usuarios;
+import io.github.osmaell.exception.SenhaInvalidaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
@@ -20,6 +21,17 @@ public class UsuarioServiceImpl implements UserDetailsService {
 
     @Autowired
     private Usuarios usuarioRepository;
+
+    public UserDetails autenticar(Usuario usuario) {
+        UserDetails userDetails = loadUserByUsername(usuario.getLogin());
+        boolean senhasBatem = encoder.matches(usuario.getSenha(), userDetails.getPassword());
+
+        if (senhasBatem) {
+            return userDetails;
+        }
+
+        throw new SenhaInvalidaException();
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
