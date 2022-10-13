@@ -1,7 +1,14 @@
+CREATE TABLE usuario (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    login VARCHAR(50) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    admin BOOL DEFAULT FALSE
+);
+
 CREATE TABLE cliente (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100),
-    cpf VARCHAR(11)
+    cpf VARCHAR(15)
 );
 
 CREATE TABLE produto (
