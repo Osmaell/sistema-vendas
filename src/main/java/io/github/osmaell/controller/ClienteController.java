@@ -2,6 +2,7 @@ package io.github.osmaell.controller;
 
 import io.github.osmaell.domain.entity.Cliente;
 import io.github.osmaell.domain.repository.Clientes;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -14,6 +15,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+@Api("Api Clientes")
 @RestController
 @RequestMapping("/api/clientes")
 public class ClienteController {
@@ -21,8 +23,13 @@ public class ClienteController {
     @Autowired
     private Clientes clientes;
 
+    @ApiOperation("Obter detalhes de um cliente")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Cliente encontrado"),
+            @ApiResponse(code = 404, message = "Cliente não encontrado para o ID informado")
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId( @PathVariable Integer id) {
+    public ResponseEntity<?> buscarPorId( @PathVariable @ApiParam("Id do cliente") Integer id) {
         Optional<Cliente> cliente = clientes.findById(id);
 
         if ( cliente.isPresent() ) {
@@ -32,6 +39,11 @@ public class ClienteController {
         return ResponseEntity.notFound().build();
     }
 
+    @ApiOperation("Salva um novo cliente")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Cliente salvo com sucesso"),
+            @ApiResponse(code = 400, message = "Erro de validação")
+    })
     @PostMapping
     public ResponseEntity<?> salvar( @RequestBody @Valid Cliente cliente ) {
         Cliente clienteSalvo = clientes.save(cliente);
